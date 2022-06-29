@@ -61,3 +61,18 @@ def index(request):
     # aaaa = MandatoryAppPolicy.objects.bulk_create(script_obj)
     return render(request, "index.html")
 
+
+modules = course.modules.all()
+            module_for_update = []
+            i = 1
+            for module in modules:
+                if module.pk == int(module_id):
+                    module.order = order
+                    module_for_update.append(module)
+                    continue
+                if order == i:
+                    i += 1
+                module.order = i
+                module_for_update.append(module)
+                i += 1
+            Module.objects.bulk_update(module_for_update, ["order"])
